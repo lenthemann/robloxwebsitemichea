@@ -16,6 +16,7 @@
 body {
     background: #0b0f14;
     color: #ffffff;
+    overflow-x: hidden;
 }
 
 nav {
@@ -29,6 +30,7 @@ nav {
     top: 0;
     backdrop-filter: blur(10px);
     z-index: 1000;
+    transition: padding 0.3s ease;
 }
 
 nav img {
@@ -39,6 +41,7 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 40px;
+    transition: all 0.3s ease;
 }
 
 nav a {
@@ -52,6 +55,22 @@ nav a:hover {
     color: white;
 }
 
+/* Mobile menu toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
 .hero {
     height: 100vh;
     display: flex;
@@ -59,11 +78,13 @@ nav a:hover {
     justify-content: center;
     padding: 0 80px;
     background: linear-gradient(180deg, #0b0f14 0%, #111827 100%);
+    transition: padding 0.3s ease;
 }
 
 .hero h1 {
     font-size: 70px;
     margin-bottom: 20px;
+    transition: font-size 0.3s ease;
 }
 
 .hero p {
@@ -71,6 +92,7 @@ nav a:hover {
     color: #9ca3af;
     max-width: 600px;
     margin-bottom: 40px;
+    transition: font-size 0.3s ease;
 }
 
 .btn {
@@ -109,10 +131,12 @@ nav a:hover {
     padding: 100px 20px;
     background: #111827;
     text-align: center;
+    transition: gap 0.3s ease;
 }
 
 .stat h2 {
     font-size: 50px;
+    position: relative;
 }
 
 .stat p {
@@ -121,11 +145,13 @@ nav a:hover {
 
 .section {
     padding: 100px 80px;
+    transition: padding 0.3s ease;
 }
 
 .section h2 {
     font-size: 40px;
     margin-bottom: 50px;
+    transition: font-size 0.3s ease;
 }
 
 .games-grid {
@@ -159,64 +185,203 @@ footer {
     background: #0f172a;
     text-align: center;
     color: #6b7280;
+    transition: padding 0.3s ease;
+}
+
+.game-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+/* Loading state for stats */
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #2563eb;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { width: 0; }
+    50% { width: 100%; }
+    100% { width: 0; }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    nav {
+        padding: 15px 20px;
+    }
+    
+    nav ul {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: rgba(10, 14, 20, 0.95);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        padding: 20px 0;
+        gap: 20px;
+    }
+    
+    nav ul.active {
+        left: 0;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+    
+    .hero {
+        padding: 0 20px;
+    }
+    
+    .hero h1 {
+        font-size: 40px;
+    }
+    
+    .hero p {
+        font-size: 18px;
+    }
+    
+    .btn {
+        display: block;
+        margin: 10px 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 30px;
+        padding: 60px 20px;
+    }
+    
+    .stat h2 {
+        font-size: 36px;
+    }
+    
+    .section {
+        padding: 50px 20px;
+    }
+    
+    .section h2 {
+        font-size: 30px;
+    }
+    
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    footer {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 32px;
+    }
+    
+    .hero p {
+        font-size: 16px;
+    }
+    
+    .section h2 {
+        font-size: 26px;
+    }
+    
+    .stat h2 {
+        font-size: 30px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<nav>
+<nav aria-label="Main navigation">
     <!-- Logo Placeholder -->
-    <img src="assets/logo.png" alt="D&M Entertainment Logo">
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Our Games</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Game Acquisition</a></li>
+    <img src="assets/images/logo.png" alt="D&M Entertainment Logo">
+    <ul id="navMenu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#games">Our Games</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#acquisition">Game Acquisition</a></li>
     </ul>
+    <div class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </nav>
 
-<section class="hero">
-    <h1>D&M Entertainment</h1>
+<section class="hero" id="home" aria-labelledby="hero-title">
+    <h1 id="hero-title">D&M Entertainment</h1>
     <p>
         We create immersive Roblox experiences designed to scale, engage,
         and dominate the charts.
     </p>
     <div>
-        <a href="#" class="btn primary">Explore Our Games</a>
-        <a href="#" class="btn secondary">Contact Us</a>
+        <a href="#games" class="btn primary">Explore Our Games</a>
+        <a href="#acquisition" class="btn secondary">Contact Us</a>
     </div>
 </section>
 
-<section class="stats">
+<section class="stats" aria-label="Game statistics">
     <div class="stat">
-        <h2 id="visits">Loading...</h2>
+        <h2 id="visits" class="loading">Loading...</h2>
         <p>Total Visits</p>
     </div>
     <div class="stat">
-        <h2 id="playing">Loading...</h2>
+        <h2 id="playing" class="loading">Loading...</h2>
         <p>Players Playing</p>
     </div>
 </section>
 
-<section class="section">
-    <h2>Our Games</h2>
+<section class="section" id="games" aria-labelledby="games-title">
+    <h2 id="games-title">Our Games</h2>
 
     <div class="games-grid">
         <div class="game-card">
+            <img src="assets/images/gliderpicture.png" alt="Speed Glider Escape - A fast-paced glider adventure" loading="lazy">
             <h3>Speed Glider Escape</h3>
             <p>A fast-paced glider escape adventure pushing player skill to the limit.</p>
             <a href="https://www.roblox.com/games/115442728708640/"
                target="_blank"
-               class="btn primary">View Game</a>
+               class="btn primary"
+               aria-label="Play Speed Glider Escape on Roblox">View Game</a>
         </div>
-
         <!-- Future games automatically go here -->
     </div>
 </section>
 
-<section class="section">
-    <h2>Game Acquisition</h2>
+<section class="section" id="acquisition" aria-labelledby="acquisition-title">
+    <h2 id="acquisition-title">Game Acquisition</h2>
     <p style="color:#9ca3af; max-width:700px;">
         Ready to unlock the full potential of your Roblox creation?
         We offer full game acquisitions, development scaling,
@@ -225,28 +390,90 @@ footer {
 </section>
 
 <footer>
-    © 2026 D&M Entertainment — All Rights Reserved
+    <p id="copyright">© 2024 D&M Entertainment — All Rights Reserved</p>
 </footer>
 
 <script>
-function loadStats() {
-    fetch("/.netlify/functions/visits")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("visits").innerText =
-                data.visits.toLocaleString();
+// Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navMenu');
 
-            document.getElementById("playing").innerText =
-                data.playing.toLocaleString();
+menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Close menu when clicking on a link
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+});
+
+// Dynamic copyright year
+document.getElementById('copyright').innerHTML = `© ${new Date().getFullYear()} D&M Entertainment — All Rights Reserved`;
+
+// Enhanced stats loading with error handling (without retry buttons)
+let statsInterval;
+
+function loadStats() {
+    const visitsElement = document.getElementById("visits");
+    const playingElement = document.getElementById("playing");
+    
+    // Show loading state
+    visitsElement.classList.add('loading');
+    playingElement.classList.add('loading');
+    visitsElement.textContent = "Loading...";
+    playingElement.textContent = "Loading...";
+    
+    fetch("/.netlify/functions/visits")
+        .then(res => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
         })
-        .catch(() => {
-            document.getElementById("visits").innerText = "Error";
-            document.getElementById("playing").innerText = "Error";
+        .then(data => {
+            visitsElement.classList.remove('loading');
+            playingElement.classList.remove('loading');
+            visitsElement.textContent = data.visits.toLocaleString();
+            playingElement.textContent = data.playing.toLocaleString();
+        })
+        .catch(error => {
+            console.error('Error loading stats:', error);
+            visitsElement.classList.remove('loading');
+            playingElement.classList.remove('loading');
+            visitsElement.textContent = "Error";
+            playingElement.textContent = "Error";
         });
 }
 
+// Initial load and set interval
 loadStats();
-setInterval(loadStats, 30000);
+statsInterval = setInterval(loadStats, 30000);
+
+// Clear interval when page is not visible to save resources
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        clearInterval(statsInterval);
+    } else {
+        loadStats();
+        statsInterval = setInterval(loadStats, 30000);
+    }
+});
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
 </script>
 
 </body>
