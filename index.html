@@ -195,7 +195,7 @@ footer {
     object-fit: cover;
 }
 
-/* Loading state for stats */
+/* loadingshit */
 .loading {
     position: relative;
 }
@@ -217,7 +217,7 @@ footer {
     100% { width: 0; }
 }
 
-/* Mobile responsiveness */
+/* telefoon compatitijds ding */
 @media (max-width: 768px) {
     nav {
         padding: 15px 20px;
@@ -368,7 +368,7 @@ footer {
 
     <div class="games-grid">
         <div class="game-card">
-            <img src="assets/images/gliderpicture.png" alt="Speed Glider Escape - A fast-paced glider adventure" loading="lazy">
+            <img src="gliderpicture.png" alt="Speed Glider Escape - A fast-paced glider adventure" loading="lazy">
             <h3>Speed Glider Escape</h3>
             <p>A fast-paced glider escape adventure pushing player skill to the limit.</p>
             <a href="https://www.roblox.com/games/115442728708640/"
@@ -376,7 +376,7 @@ footer {
                class="btn primary"
                aria-label="Play Speed Glider Escape on Roblox">View Game</a>
         </div>
-        <!-- Future games automatically go here -->
+        <!-- Toekomstege spelletjes hier tussen len was hier -->
     </div>
 </section>
 
@@ -403,7 +403,7 @@ menuToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
 });
 
-// Close menu when clicking on a link
+// menu sluiten link klik
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', () => {
         menuToggle.classList.remove('active');
@@ -451,7 +451,7 @@ function loadStats() {
 loadStats();
 statsInterval = setInterval(loadStats, 30000);
 
-// Clear interval when page is not visible to save resources
+// backand ingewikkelde wiskudnige shit
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         clearInterval(statsInterval);
@@ -461,7 +461,7 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// Smooth scrolling for anchor links
+// scrollen voor anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -478,3 +478,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 </body>
 </html>
+
