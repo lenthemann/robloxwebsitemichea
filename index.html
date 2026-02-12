@@ -1,0 +1,14 @@
+<h1>Speed Glider Escape Visits</h1>
+<h2 id="visits">Loading...</h2>
+
+<script>
+  fetch("/.netlify/functions/visits")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("visits").innerText =
+        data.visits.toLocaleString();
+    })
+    .catch(() => {
+      document.getElementById("visits").innerText = "Error loading visits";
+    });
+</script>
